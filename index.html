@@ -97,14 +97,18 @@
       .page { padding:12px; } .grid-2, .actions { grid-template-columns:1fr; } .title { font-size:28px; }
       .gallery-nav { width:36px; height:36px; }
     }
-  </style>
+  
+.usd { color: #22c55e; font-weight: 700; }
+.peso { color: #64748b; }
+
+</style>
 </head>
 <body>
   <div class="page">
     <div class="wrap">
       <div class="app">
         <div class="hero">
-          <h1 class="title">BYD<br><span>GRUPO JACK LAJ</span></h1>
+          <h1 class="title">BYD - GRUPO JACK</h1>
         </div>
 
         <div class="content">
@@ -184,29 +188,29 @@
             <div class="card dark">
               <h2>Resumen para cliente</h2>
               <div class="rows">
-                <div class="row"><span class="label">Modelo</span><span class="value" id="summaryModel"></span></div>
-                <div class="row"><span class="label">Plan</span><span class="value" id="summaryPlan"></span></div>
-                <div class="row"><span class="label">Tasa quebranto</span><span class="value" id="summaryRate"></span></div>
+                <div class="row"><span class="label">Modelo</span><span class="value usd" id="summaryModel"></span></div>
+                <div class="row"><span class="label">Plan</span><span class="value usd" id="summaryPlan"></span></div>
+                <div class="row"><span class="label">Tasa quebranto</span><span class="value usd" id="summaryRate"></span></div>
                 <div class="separator"></div>
                 <div class="row"><span class="label">Cuota mensual s/seguro</span><span class="value big" id="summaryMonthly"></span></div>
-                <div class="row"><span class="label">Anticipo a abonar</span><span class="value" style="font-size:24px;" id="summaryAnticipo"></span></div>
+                <div class="row"><span class="label">Anticipo USD</span><span class="value usd" style="font-size:24px;" id="summaryAnticipo"></span></div>
               </div>
             </div>
 
             <div class="card">
               <h2>Detalle de cálculo</h2>
               <div class="rows">
-                <div class="row"><span class="label">Vehículo ($)</span><span class="value" id="vehiclePesos"></span></div>
-                <div class="row"><span class="label">Patentamiento ($)</span><span class="value" id="patentPesos"></span></div>
-                <div class="row"><span class="label">Subtotal 1</span><span class="value" id="subtotal1"></span></div>
+                <div class="row"><span class="label">Vehículo ($)</span><span class="value usd" id="vehiclePesos"></span></div>
+                <div class="row"><span class="label">Patentamiento ($)</span><span class="value usd" id="patentPesos"></span></div>
+                <div class="row"><span class="label">Subtotal 1</span><span class="value usd" id="subtotal1"></span></div>
                 <div class="separator"></div>
-                <div class="row"><span class="label">Quebranto</span><span class="value" id="quebranto"></span></div>
-                <div class="row"><span class="label">IVA quebranto</span><span class="value" id="ivaQuebranto"></span></div>
-                <div class="row"><span class="label">Subtotal 2</span><span class="value" id="subtotal2"></span></div>
+                <div class="row"><span class="label">Quebranto</span><span class="value usd" id="quebranto"></span></div>
+                <div class="row"><span class="label">IVA quebranto</span><span class="value usd" id="ivaQuebranto"></span></div>
+                <div class="row"><span class="label">Subtotal 2</span><span class="value usd" id="subtotal2"></span></div>
                 <div class="separator"></div>
-                <div class="row"><span class="label">Total operación</span><span class="value" id="totalOperation"></span></div>
-                <div class="row"><span class="label">Crédito bancario</span><span class="value" id="creditBank"></span></div>
-                <div class="row"><span class="label">Restan abonar</span><span class="value" id="restanAbonar"></span></div>
+                <div class="row"><span class="label">Total operación</span><span class="value usd" id="totalOperation"></span></div>
+                <div class="row"><span class="label">Crédito bancario</span><span class="value usd" id="creditBank"></span></div>
+                <div class="row"><span class="label">Saldo a abonar USD</span><span class="value usd" id="restanAbonar"></span></div>
               </div>
             </div>
 
@@ -215,7 +219,7 @@
               <button class="action-btn" type="button" id="shareBtn">Compartir cotización</button>
             </div>
 
-            <div class="footer-note">Valores sin gastos incluidos.</div>
+            <div class="footer-note">Los valores de patentamiento no incluyen gastos de sellados ni alta de patente en caso de corresponder.</div>
           </div>
         </div>
       </div>
@@ -338,7 +342,7 @@
       el("summaryPlan").textContent = term + " cuotas";
       el("summaryRate").textContent = (rate * 100).toFixed(2).replace(".", ",") + "%";
       el("summaryMonthly").textContent = peso.format(monthlyNoInsurance);
-      el("summaryAnticipo").textContent = peso.format(anticipo);
+      el("summaryAnticipo").textContent = usdFmt.format(anticipo / fxRate);
 
       el("vehiclePesos").textContent = peso.format(vehiclePesos);
       el("patentPesos").textContent = peso.format(patentPesos);
@@ -348,7 +352,7 @@
       el("subtotal2").textContent = peso.format(subtotal2);
       el("totalOperation").textContent = peso.format(total);
       el("creditBank").textContent = peso.format(creditRequested);
-      el("restanAbonar").textContent = peso.format(anticipo);
+      el("restanAbonar").textContent = usdFmt.format(anticipo / fxRate);
 
       const phone = (phoneCustom.value || "").replace(/\D/g, "");
       const lines = [
@@ -362,8 +366,8 @@
         `Cuota mensual sin seguro: ${peso.format(monthlyNoInsurance)}`,
         `Quebranto: ${peso.format(quebranto)}`,
         `IVA quebranto: ${peso.format(ivaQuebranto)}`,
-        `Anticipo a abonar: ${peso.format(anticipo)}`,
-        "Valores sin gastos incluidos."
+        `Anticipo USD: ${peso.format(anticipo)}`,
+        "Los valores de patentamiento no incluyen gastos de sellados ni alta de patente en caso de corresponder."
       ];
 
       whatsappBtn.onclick = () => {
