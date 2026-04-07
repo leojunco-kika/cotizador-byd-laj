@@ -99,7 +99,7 @@
     }
   
 .usd { color: #22c55e; font-weight: 700; }
-.peso { color: #64748b; }
+.peso { color: #94a3b8; font-weight: 500; font-size: 12px; }
 
 </style>
 </head>
@@ -192,7 +192,7 @@
                 <div class="row"><span class="label">Plan</span><span class="value usd" id="summaryPlan"></span></div>
                 <div class="row"><span class="label">Tasa quebranto</span><span class="value usd" id="summaryRate"></span></div>
                 <div class="separator"></div>
-                <div class="row"><span class="label">Cuota mensual s/seguro</span><span class="value big" id="summaryMonthly"></span></div>
+                <div class="row"><span class="label">Cuota mensual s/seguro ($)</span><span class="value big" id="summaryMonthly"></span></div>
                 <div class="row"><span class="label">Anticipo USD</span><span class="value usd" style="font-size:24px;" id="summaryAnticipo"></span></div>
               </div>
             </div>
@@ -200,16 +200,16 @@
             <div class="card">
               <h2>Detalle de cálculo</h2>
               <div class="rows">
-                <div class="row"><span class="label">Vehículo ($)</span><span class="value usd" id="vehiclePesos"></span></div>
-                <div class="row"><span class="label">Patentamiento ($)</span><span class="value usd" id="patentPesos"></span></div>
-                <div class="row"><span class="label">Subtotal 1</span><span class="value usd" id="subtotal1"></span></div>
+                <div class="row"><span class="label">Vehículo USD</span><span class="value usd" id="vehiclePesos"></span></div>
+                <div class="row"><span class="label">Patentamiento USD</span><span class="value usd" id="patentPesos"></span></div>
+                <div class="row"><span class="label">Subtotal 1 ($)</span><span class="value usd" id="subtotal1"></span></div>
                 <div class="separator"></div>
-                <div class="row"><span class="label">Quebranto</span><span class="value usd" id="quebranto"></span></div>
-                <div class="row"><span class="label">IVA quebranto</span><span class="value usd" id="ivaQuebranto"></span></div>
-                <div class="row"><span class="label">Subtotal 2</span><span class="value usd" id="subtotal2"></span></div>
+                <div class="row"><span class="label">Quebranto ($)</span><span class="value usd" id="quebranto"></span></div>
+                <div class="row"><span class="label">IVA quebranto ($)</span><span class="value usd" id="ivaQuebranto"></span></div>
+                <div class="row"><span class="label">Subtotal 2 ($)</span><span class="value usd" id="subtotal2"></span></div>
                 <div class="separator"></div>
-                <div class="row"><span class="label">Total operación</span><span class="value usd" id="totalOperation"></span></div>
-                <div class="row"><span class="label">Crédito bancario</span><span class="value usd" id="creditBank"></span></div>
+                <div class="row"><span class="label">Total operación ($)</span><span class="value usd" id="totalOperation"></span></div>
+                <div class="row"><span class="label">Crédito bancario ($)</span><span class="value usd" id="creditBank"></span></div>
                 <div class="row"><span class="label">Saldo a abonar USD</span><span class="value usd" id="restanAbonar"></span></div>
               </div>
             </div>
@@ -344,8 +344,14 @@
       el("summaryMonthly").textContent = peso.format(monthlyNoInsurance);
       el("summaryAnticipo").textContent = usdFmt.format(anticipo / fxRate);
 
-      el("vehiclePesos").textContent = peso.format(vehiclePesos);
-      el("patentPesos").textContent = peso.format(patentPesos);
+      el("vehiclePesos").innerHTML = `
+        <span class="usd">${usdFmt.format(usdPrice)}</span><br>
+        <span class="peso">${peso.format(vehiclePesos)}</span>
+      `;
+      el("patentPesos").innerHTML = `
+        <span class="usd">${usdFmt.format(patentUsd)}</span><br>
+        <span class="peso">${peso.format(patentPesos)}</span>
+      `;
       el("subtotal1").textContent = peso.format(subtotal1);
       el("quebranto").textContent = peso.format(quebranto);
       el("ivaQuebranto").textContent = peso.format(ivaQuebranto);
