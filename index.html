@@ -372,7 +372,7 @@
         `Cuota mensual sin seguro: ${peso.format(monthlyNoInsurance)}`,
         `Quebranto: ${peso.format(quebranto)}`,
         `IVA quebranto: ${peso.format(ivaQuebranto)}`,
-        `Anticipo USD: ${peso.format(anticipo)}`,
+        `Anticipo USD: ${usdFmt.format(anticipo / fxRate)}`,
         "Los valores de patentamiento no incluyen gastos de sellados ni alta de patente en caso de corresponder."
       ];
 
